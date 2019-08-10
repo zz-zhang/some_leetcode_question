@@ -1,0 +1,32 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Example user template template
+### Example user template
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+/bizreach
+/google
+/leapmind
+/line
+/Line. Wikipedia
+/paiza
+.idea/
+Line. Wikipedia/
+bizreach/
+google/
+leapmind/
+line/
+paiza/
+source code/Data generator.py
+source code/Huffman tree.py
+source code/Weekly Contest 128-1.py
+source code/Weekly Contest 128-2.py
+source code/Weekly Contest 128-3.py
+source code/answer.txt
+source code/any test.py
+source code/any_test.py
+source code/input.in
+venv/
