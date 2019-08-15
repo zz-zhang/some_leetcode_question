@@ -14,6 +14,8 @@ class Solution:
         #     print(line)
         # print(dp[m - 1][n - 1])
         return dp[m - 1][n - 1]
+
+
 if __name__ == '__main__':
     sol = Solution()
     m, n = 100, 100
