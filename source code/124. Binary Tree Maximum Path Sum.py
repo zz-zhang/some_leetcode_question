@@ -5,58 +5,30 @@ class TreeNode:
         self.left = None
         self.right = None
 
-class Solution:
-    def tree_to_list(self, root: TreeNode):
-        queue = [root]
-        l = []
-        while len(queue) > 0:
-            head = queue[0]
-            queue.pop(0)
 
-            if head is None:
-                l.append(-0x7fffffff)
-            else:
-                l.append(head.val)
-                queue.append(head.left)
-                queue.append(head.right)
-        return l
+class Solution:
+    res = -0x7fffffff
+    def find_sum(self, root):
+        if root is None:
+            return 0
+        dp_l = self.find_sum(root.left)
+        dp_r = self.find_sum(root.right)
+        max_dir = max(dp_l, dp_r)
+        max_one_son = max(root.val + max_dir, root.val)
+        max_two_son = max(root.val + dp_l + dp_r, max_one_son)
+        self.res = max(self.res, max_two_son)
+        return max_one_son
+
 
     def maxPathSum(self, root: TreeNode) -> int:
-        node_list = self.tree_to_list(root)
-        dp = [item for item in node_list]
-
-        def left(index):
-            return index * 2 + 1
-        def right(index):
-            return index * 2 + 2
-        for index in range(len(dp) - 1, -1, -1):
-            l = left(index)
-            r = right(index)
-            temp = dp[index]
-            if l < len(dp):
-                temp = max(temp, dp[index] + dp[l], dp[l])
-            if r < len(dp):
-                temp = max(temp, dp[index] + dp[r], dp[r])
-            if l < len(dp) and r < len(dp):
-                temp = max(temp, dp[index] + dp[r] + dp[l])
-            dp[index] = temp
-            # print(index, dp)
-        return dp[0]
-
-def list_to_tree(l, index):
-    if index >= len(l):
-        return None
-    if l[index] is not None:
-        root = TreeNode(l[index])
-        root.left = list_to_tree(l, index * 2 + 1)
-        root.right = list_to_tree(l, index * 2 + 2)
-        return root
-    else:
-        return None
+        self.res = -0x7fffffff
+        self.find_sum(root)
+        return self.res
 
 if __name__ == '__main__':
     sol = Solution()
-    l = [1,None,2,None,3,None,4,None,5]
-    # print(l)
-    root = list_to_tree(l, 0)
+    root = TreeNode(1)
+    root.left = TreeNode(2)
+    root.right = TreeNode(3)
+
     print(sol.maxPathSum(root))
