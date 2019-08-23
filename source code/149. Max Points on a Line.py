@@ -1,23 +1,17 @@
 class Solution:
     def gcd(self, x, y):
-        # if x < y:
-        #     x, y = y, x
-        # if y == 0:
-        #     return x
-        # if y == 1:
-        #     return 1
-        # return self.gcd(int(x / y), int(x % y))
-
-        if x < y:
-            x, y = y, x
-        q = int(x / y)
-        r = int(x % y)
-        while r != 0:
-            x = y
-            y = r
-            q = int(x / y)
-            r = int(x % y)
-        return q
+        if x == y:
+            return x
+        # elif x < y:
+        #     return self.gcd(x, y - x)
+        # else:
+        #     return self.gcd(x - y, y)
+        while x != y:
+            if x > y:
+                x, y = x - y, y
+            else:
+                x, y = x, y - x
+        return x
 
     def fraction_reduction(self, x, y):
         flag_x, flag_y = 1, 1
@@ -36,8 +30,8 @@ class Solution:
         return int(flag_x * x / gcd), int(flag_y * y / gcd)
 
     def maxPoints(self, points) -> int:
-        if len(points) == 1:
-            return 1
+        if len(points) <= 2:
+            return len(points)
         slope = {}
         for i in range(0, len(points)):
             for j in range(i + 1, len(points)):
@@ -61,5 +55,5 @@ if __name__ == '__main__':
     sol = Solution()
     # points = [[1, 1], [2, 2], [3, 3]]
     # points = [[1,1],[3,2],[5,3],[4,1],[2,3],[1,4]]
-    points = [[0, 0], [-1, -1], [2, 2]]
+    points = [[0,0],[1,65536],[65536,0]]
     print(sol.maxPoints(points))
