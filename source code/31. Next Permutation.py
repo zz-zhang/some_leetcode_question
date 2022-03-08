@@ -1,41 +1,29 @@
 #not finished
 class Solution:
-    def inOrder(self, nums):
-        i = 1
-        while i < len(nums):
-            if nums[i] > nums[i - 1]:
-                return False
-            i += 1
-        return True
 
     def nextPermutation(self, nums):
         """
         :type nums: List[int]
         :rtype: void Do not return anything, modify nums in-place instead.
         """
-        if self.inOrder(nums):
-            nums.sort()
-            # return nums
+        is_order, index = self._in_order(nums)
+        if is_order:
+            nums = nums[::-1]
+            # print(nums)
+        else:
+            nums[index] += nums[index + 1]
+            nums[index + 1] = nums[index] - nums[index + 1]
+            nums[index] = nums[index] - nums[index + 1]
 
-        for i in range(len(nums) - 1, 0, -1):
-            max = 0
-            flag = 0
-            for j in range(i - 1, 0, -1):
-                if nums[j] < nums[i]:
-                    if nums[j] < max:
-                        max = nums[j]
-                        flag = j
-            if flag != 0:
-                nums[i] = nums[i] + nums[flag]
-                nums[flag] = nums[i] - nums[flag]
-                nums[i] = nums[i] - nums[flag]
-                # nums1 = nums[0 : i + 1]
-                # nums2 = sorted(nums[i+1:])
-                # nums = nums1 + nums2
-                break
-        return nums
+    def _in_order(self, nums):
+        for i in range(len(nums) - 1):
+            print(nums[i + 1], nums[i])
+            if nums[i + 1] > nums[i]:
+                return False, i
+        return True, 0
 
 if __name__ == '__main__':
     sol = Solution()
     nums = [1, 3, 2]
-    print(sol.nextPermutation(nums))
+    sol.nextPermutation(nums)
+    print(nums)

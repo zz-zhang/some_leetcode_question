@@ -1,99 +1,66 @@
+'''
+https://leetcode.com/problems/regular-expression-matching/
+'''
+
+
 class Solution:
+    def isMatch(self, s: str, p: str) -> bool:
+        p = self._split(p)
+        for item in p:
+            if len(item) == 1:
+                if item[0] != '.' and item[0] not in s:
+                    return False
+        return self._match(s, p)
 
+    def _len_min(self, p):
+        l = 0
+        for item in p:
+            if '*' not in item:
+                l += 1
+        return l
 
-    def match_fragment(self, s, fragment, start_flag):
-        if start_flag + len(fragment) > len(s):
-            return False
-        for i in range(start_flag, start_flag + len(fragment)):
-            if fragment[i - start_flag] != '.' and\
-                    s[i] != fragment[i - start_flag]:
-                return False
-        return True
-
-
-    def find_location(self, s, fragment, start_flag, allow_ignore):
-        s = str(s)
-        for i in range(start_flag, len(s)):
-            if self.match_fragment(s, fragment, i):
-                return i, i + len(fragment)
-            if allow_ignore and self.match_fragment(s, fragment[:len(fragment) - 1], i):
-                return i, i + len(fragment) - 1
-        return -1, -1
-
-
-    def isMatch(self, s, p):
-        """
-        :type s: str
-        :type p: str
-        :rtype: bool
-        """
-        alphabet = [chr(a) for a in range(97, 97 + 26)]
-        alphabet.append(',')
-        s = s + ','
-        p = p + ','
-        matched_s = [False for i in range(0, len(s))]
-
-        shortest_p = str(p)
-        for alpha in alphabet:
-            shortest_p = shortest_p.replace(alpha + '*', '')
-        if len(shortest_p) > len(s):
-            return False
-
-        last_is_star = False
-        splited_p = p.split('*')
-        if p[-1] == '*':
-            last_is_star = True
-            splited_p = splited_p[:len(splited_p) - 1]
-        # print(splited_p)
-        start_flag = []
-        end_flag = []
-        for fragment in splited_p:
-            if len(end_flag) == 0:
-                start = 0
+    def _match(self, s, p):
+        if len(s) == 0:
+            if self._len_min(p) == 0:
+                return True
             else:
-                start = end_flag[-1]
-            allow_ignore = True
-            if fragment == splited_p[-1] and not last_is_star:
-                allow_ignore = False
-
-            start_flag_temp, end_flag_temp = self.find_location(s, fragment, start, allow_ignore)
-            if start_flag_temp != -1:
-                start_flag.append(start_flag_temp)
-                end_flag.append(end_flag_temp)
-                # print(start_flag)
-                # print(end_flag)
-                # return False
-
-        for iter_flag in range(0, len(start_flag)):
-            for iter_matched in range(start_flag[iter_flag], end_flag[iter_flag]):
-                matched_s[iter_matched] = True
-
-        start_flag.append(len(s))
-        for iter_flag in range(0, len(start_flag) - 1):
-            start = end_flag[iter_flag]
-            end = start_flag[iter_flag + 1]
-            for finder in range(start, end):
-                if s[finder] != s[start]:
-                    # return False
-                    break
-                else:
-                    matched_s[finder] = True
-
-
-        # print(start_flag)
-        # print(end_flag)
-        print(matched_s)
-        for iter_matched in matched_s:
-            if not iter_matched:
                 return False
+        if len(p) == 0:
+            return False
+        # with '*'
+        if len(p[0]) == 2:
+            # s[0] appears 0 time
+            if self._match(s, p[1:]):
+                return True
+            if s[0] == p[0][0] or p[0][0] == '.':
+                # s[0] appears once
+                if self._match(s[1:], p[1:]):
+                    return True
+                # s[0] appears at least 2 times
+                if self._match(s[1:], p):
+                    return True
 
-        return True
+        # without '*'
+        else:
+            if s[0] == p[0][0] or p[0][0] == '.':
+                if self._match(s[1:], p[1:]):
+                    return True
 
+        return False
 
+    def _split(self, p):
+        res = []
+        for c in p:
+            if c != '*':
+                res.append(c)
+            else:
+                res[-1] = res[-1] + '*'
+        return res
 
 
 if __name__ == '__main__':
-    s = 'aaa'
-    p = 'ab*a'
+    ss = ['a', 'aa', 'aa', 'ab', 'aab', 'mississippi', 'a', 'aaaaaaaaaaaaab']
+    pp = ['ab*', 'a', 'a*', '.*', 'c*a*b', 'mis*is*p*', '.*..a*', 'a*a*a*a*a*a*a*a*a*a*c']
     sol = Solution()
-    print(sol.isMatch(s, p))
+    for (s, p) in zip(ss, pp):
+        print(sol.isMatch(s, p))

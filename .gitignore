@@ -32,3 +32,5 @@ source code/anytest.py
 source code/input.in
 venv/
 /cookpad
+data_generator.py
+.vscode
