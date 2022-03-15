@@ -6,8 +6,6 @@ class Solution:
     def countBits(self, n: int):
         if n == 0:
             return [0]
-        # if n == 1:
-        #     return [0, 1]
         res = [0, 1]
         index = 1
         for num in range(2, n + 1):
