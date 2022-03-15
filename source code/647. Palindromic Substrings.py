@@ -8,7 +8,7 @@ class Solution:
                     if sub_str in res.keys():
                         res[sub_str] += 1
                     elif self.is_palindromic(sub_str): 
-                        print(idx, length, sub_str)
+                        # print(idx, length, sub_str)
                         res[sub_str] = 1
         # print(res)
         return sum(res.values())
