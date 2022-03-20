@@ -42,3 +42,16 @@ def drawtree(root):
     draw(root, 0, 30*h, 40*h)
     t.hideturtle()
     turtle.mainloop()
+
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def build_list(lst):
+    head = ListNode(lst[0])
+    node = head
+    for val in lst[1:]:
+        node.next = ListNode(val)
+        node = node.next
+    return head
