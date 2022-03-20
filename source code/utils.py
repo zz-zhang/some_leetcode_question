@@ -49,9 +49,18 @@ class ListNode:
         self.next = next
 
 def build_list(lst):
-    head = ListNode(lst[0])
+    if len(lst) > 0:
+        head = ListNode(lst[0])
+        node = head
+        for val in lst[1:]:
+            node.next = ListNode(val)
+            node = node.next
+        return head
+    return None
+
+def print_list(head):
     node = head
-    for val in lst[1:]:
-        node.next = ListNode(val)
+    while node is not None:
+        print(node.val, end=' ')
         node = node.next
-    return head
+    print()

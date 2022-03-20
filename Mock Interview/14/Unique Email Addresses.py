@@ -10,7 +10,7 @@ class Solution:
             if '+' in local:
                 local = local[:local.index('+')]
             
-            print(local)
+            # print(local)
 
             if local not in recoder.keys():
                 recoder[local] = [host]
