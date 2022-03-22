@@ -16,7 +16,7 @@ class Solution:
             min_sub = min(min_sub * num, num)
             max_sub = max(max_sub * num, num)
             ans = max(ans, max_sub)
-            print(min_sub, max_sub, ans)
+            # print(min_sub, max_sub, ans)
         return ans
 
 
