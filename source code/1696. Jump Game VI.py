@@ -25,7 +25,7 @@ class Solution:
                     max_prev = dp[(idx + 1) - 1]
                     max_prev_idx = (idx + 1) - 1
             dp[idx + 1] = num + max_prev
-        print(dp)
+        # print(dp)
         return dp[-1]
 
 if __name__ == '__main__':
