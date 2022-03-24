@@ -27,7 +27,7 @@ class Solution:
                     res.append([x, y])
                 elif z_ > z:
                     break
-        print(res)
+        # print(res)
         return res
 
 
