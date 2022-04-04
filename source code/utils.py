@@ -60,7 +60,8 @@ def build_list(lst):
 
 def print_list(head):
     node = head
+    print('[', end='')
     while node is not None:
-        print(node.val, end=' ')
+        print(node.val, end=',')
         node = node.next
-    print()
+    print(']')
