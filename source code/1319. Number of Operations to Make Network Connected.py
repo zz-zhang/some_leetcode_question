@@ -38,7 +38,6 @@ class Solution:
                 visited.add(next_node)
                 group.add(next_node)
                 self.count_group(graph, next_node, visited, group)
-        # return edge
 
 if __name__ == '__main__':
     sol = Solution()
