@@ -3,50 +3,110 @@ class TreeNode:
         self.val = val
         self.left = left
         self.right = right
+
     def __repr__(self):
         return 'TreeNode({})'.format(self.val)
-    
-def deserialize(string):
-    if string == '{}':
+
+    @classmethod
+    def build_by_str(cls, string):
+        string = string.replace(' ', '')
+        if string == '{}' or string == '[]':
+            return None
+        nodes = [
+            None if val == 'null' else TreeNode(int(val))
+            for val in string.strip('[]{}').split(',')
+        ]
+        kids = nodes[::-1]
+        root = kids.pop()
+        for node in nodes:
+            if node:
+                if kids:
+                    node.left = kids.pop()
+                if kids:
+                    node.right = kids.pop()
+
+        return cls(root.val, root.left, root.right)
+
+    def draw(self):
+        def height(root):
+            return 1 + max(height(root.left), height(
+                root.right)) if root else -1
+
+        def jumpto(x, y):
+            t.penup()
+            t.goto(x, y)
+            t.pendown()
+
+        def draw(node, x, y, dx):
+            if node:
+                t.goto(x, y)
+                jumpto(x, y - 20)
+                t.write(node.val, align='center', font=('Arial', 12, 'normal'))
+                draw(node.left, x - dx, y - 60, dx / 2)
+                jumpto(x, y - 20)
+                draw(node.right, x + dx, y - 60, dx / 2)
+
+        import turtle
+        t = turtle.Turtle()
+        t.speed(0)
+        turtle.delay(0)
+        h = height(self)
+        jumpto(0, 30 * h)
+        draw(self, 0, 30 * h, 40 * h)
+        t.hideturtle()
+        turtle.mainloop()
+
+
+def build_tree(string):
+    if string == '{}' or string == '[]':
         return None
-    nodes = [None if val == 'null' else TreeNode(int(val))
-             for val in string.strip('[]{}').split(',')]
+    nodes = [
+        None if val == 'null' else TreeNode(int(val))
+        for val in string.strip('[]{}').split(',')
+    ]
     kids = nodes[::-1]
     root = kids.pop()
     for node in nodes:
         if node:
-            if kids: node.left  = kids.pop()
+            if kids: node.left = kids.pop()
             if kids: node.right = kids.pop()
     return root
+
 
 def drawtree(root):
     def height(root):
         return 1 + max(height(root.left), height(root.right)) if root else -1
+
     def jumpto(x, y):
         t.penup()
         t.goto(x, y)
         t.pendown()
+
     def draw(node, x, y, dx):
         if node:
             t.goto(x, y)
-            jumpto(x, y-20)
+            jumpto(x, y - 20)
             t.write(node.val, align='center', font=('Arial', 12, 'normal'))
-            draw(node.left, x-dx, y-60, dx/2)
-            jumpto(x, y-20)
-            draw(node.right, x+dx, y-60, dx/2)
+            draw(node.left, x - dx, y - 60, dx / 2)
+            jumpto(x, y - 20)
+            draw(node.right, x + dx, y - 60, dx / 2)
+
     import turtle
     t = turtle.Turtle()
-    t.speed(0); turtle.delay(0)
+    t.speed(0)
+    turtle.delay(0)
     h = height(root)
-    jumpto(0, 30*h)
-    draw(root, 0, 30*h, 40*h)
+    jumpto(0, 30 * h)
+    draw(root, 0, 30 * h, 40 * h)
     t.hideturtle()
     turtle.mainloop()
+
 
 class ListNode:
     def __init__(self, val=0, next=None):
         self.val = val
         self.next = next
+
 
 def build_list(lst):
     if len(lst) > 0:
@@ -57,6 +117,7 @@ def build_list(lst):
             node = node.next
         return head
     return None
+
 
 def print_list(head):
     node = head
