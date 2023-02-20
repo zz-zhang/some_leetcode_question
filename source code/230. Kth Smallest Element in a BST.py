@@ -14,7 +14,7 @@ class Solution:
         if num == -1:
             num = 0
         num += 1
-        print(num, node.val)
+        # print(num, node.val)
         if num == k:
             return True, node.val, num
         
