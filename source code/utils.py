@@ -13,7 +13,7 @@ class TreeNode:
         if string == '{}' or string == '[]':
             return None
         nodes = [
-            None if val == 'null' else TreeNode(int(val))
+            None if val == 'null' else cls(int(val))
             for val in string.strip('[]{}').split(',')
         ]
         kids = nodes[::-1]
@@ -57,21 +57,28 @@ class TreeNode:
         turtle.mainloop()
 
 
-def build_tree(string):
-    if string == '{}' or string == '[]':
-        return None
-    nodes = [
-        None if val == 'null' else TreeNode(int(val))
-        for val in string.strip('[]{}').split(',')
-    ]
-    kids = nodes[::-1]
-    root = kids.pop()
-    for node in nodes:
-        if node:
-            if kids: node.left = kids.pop()
-            if kids: node.right = kids.pop()
-    return root
+class TreeNodeFor116(TreeNode):
+    def __init__(self, val, left=None, right=None):
+        super(TreeNodeFor116, self).__init__(val, left=left, right=right)
+        self.next = None
 
+    def get_next_list(self):
+        q = [self]
+        res = []
+        first_node_in_depth = self
+        while len(q) > 0:
+            node = q[0]
+            res.append(node.val)
+            if node.next is None:
+                res.append(None)
+                if first_node_in_depth.left is not None:
+                    q.append(first_node_in_depth.left)
+                    first_node_in_depth = first_node_in_depth.left
+            else:
+                q.append(node.next)
+            q = q[1:]
+        return res
+                
 
 def drawtree(root):
     def height(root):
