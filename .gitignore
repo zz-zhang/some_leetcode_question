@@ -34,3 +34,4 @@ venv/
 /cookpad
 data_generator.py
 .vscode
+source code/__pycache__/*.pyc
