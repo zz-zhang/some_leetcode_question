@@ -1,4 +1,3 @@
-import enum
 from typing import *
 from utils import TreeNode, build_tree, drawtree
 import random
