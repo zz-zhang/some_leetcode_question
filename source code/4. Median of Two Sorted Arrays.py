@@ -1,40 +1,31 @@
+import random
 class Solution:
-    def partition(self, nums, begin, end):
-        x = nums[end]
-        i = begin - 1
-        for j in range(begin, end):
-            if nums[j] <= x:
-                i += 1
-                nums[i], nums[j] = nums[j], nums[i]
-        nums[i + 1], nums[end] = nums[end], nums[i + 1]
-        return i + 1
-
-    def find_kth_largest_num(self, nums, target, begin, end):
-        if begin == end:
-            return begin
-        index = self.partition(nums, begin, end)
-        k = index - begin + 1
-        if k == target:
-            return index
-        elif target < k:
-            return self.find_kth_largest_num(nums, target, begin, index - 1)
-        else:
-            return self.find_kth_largest_num(nums, target - k, index + 1, end)
-
     def findMedianSortedArrays(self, nums1, nums2):
-        nums = nums1 + nums2
-        if len(nums) % 2 == 0:
-            index = self.find_kth_largest_num(nums, int(len(nums) / 2) + 1, 0, len(nums) - 1)
-            m1 = nums[index - 1]
-            m2 = nums[index]
-            return (m1 + m2) / 2
-        else:
-            index = self.find_kth_largest_num(nums, int(len(nums) / 2) + 1, 0, len(nums) - 1)
-            return nums[index]
+        p1, p2 = 0, 0
+        while p2 < len(nums2):
+            while p1 < len(nums1) and nums1[p1] < nums2[p2]:
+                p1 += 1
+            if p1 == len(nums1):
+                nums1 = nums1 + [nums2[p2]]
+            else:
+                nums1 = nums1[:p1] + [nums2[p2]] + nums1[p1:]
+            p2 += 1
+        # print(nums1)
 
+        if len(nums1) % 2 == 0:
+            return (nums1[int(len(nums1) / 2) - 1] + nums1[int(len(nums1) / 2)]) / 2
+        else:
+            return nums1[int(len(nums1) / 2)]
 
 if __name__ == '__main__':
     sol = Solution()
-    nums1 = [1, 2, 3]
-    nums2 = [1, 2, 2]
+    nums1 = [1, 3]
+    nums2 = [2, 3]
+    nums1 = sorted([random.randint(int(10e5)*-1, int(10e5)) for _ in range(1000)])
+    nums2 = sorted([random.randint(int(10e5)*-1, int(10e5)) for _ in range(1000)])
+    
+    print(nums1)
+
+    print(nums2)
+
     print(sol.findMedianSortedArrays(nums1, nums2))
