@@ -11,22 +11,24 @@ class Solution:
             T >= totalTrips*lcm(time)/sum()time
             Note: use cm but not lcm to save time
         '''
-        def mlp(nums):
-            res = 1
-            for num in nums:
-                res = res * num
-                # print(res)
-            return res
+        # def mlp(nums):
+        #     res = 1
+        #     for num in nums:
+        #         res = res * num
+        #         # print(res)
+        #     return res
         import math
-        cm = math.lcm(*time)
-        # cm = mlp(time)
-        # print(cm)
-        res = totalTrips * cm / sum([int(cm / t) for t in time])
-        # res = res * cm
-        # print(res)
-        res = math.ceil(res)
-        # print(res)
-        return res
+        # cm = math.lcm(*time)
+        # # cm = mlp(time)
+        # # print(cm)
+        # res = totalTrips * cm / sum([int(cm / t) for t in time])
+        # # res = res * cm
+        # # print(res)
+        # res = math.ceil(res)
+        # # print(res)
+        # return res
+        start_num = 
+        
 
 if __name__ == '__main__':
     sol = Solution()
