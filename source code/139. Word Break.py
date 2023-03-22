@@ -11,7 +11,7 @@ class Solution:
                     print(i, word, dp[i - len(word)])
                     dp[i] = True
                     break
-        print(dp)
+        # print(dp)
         return dp[-1]
 
 if __name__ == '__main__':
