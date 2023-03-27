@@ -8,10 +8,10 @@ class Solution:
             s = s - 1
             e = e - 1
             self.disset_merge(group, s, e)
-            print(s, e, group)
+            # print(s, e, group)
 
         res = 100001
-        print(group)
+        # print(group)
         for s, e, d in roads:
             s = s - 1
             e = e - 1
