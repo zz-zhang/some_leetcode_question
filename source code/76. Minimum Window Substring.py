@@ -1,64 +1,57 @@
+import string
+from random import choice
+
 class Solution:
-    def exist(self, s, t):
-        if len(s) < len(t):
-             return False
-        for i in t:
-            if i not in s:
-                return False
-        return True
+    def minWindow(self, s: str, t: str) -> str:
+        counter_t = {char: t.count(char) for char in t}
+        left = 0
+        right = 0
+        counter_sub = {char: 0 for char in s}
+        min_length = len(s)
+        res = [0, len(s)]
 
-    def findOver(self, used, aim):
-        for i in used:
-            if used[i] < aim[i]:
-                return False
-        return True
-
-    def findEnd(self, s, t, begin):
-        used = {}
-        aim = {}
-        for i in t:
-            used[i] = 0
-            aim[i] = 0
-        for i in t:
-            aim[i] += 1
-
-        used[s[begin]] = 1
-        for i in range(begin, len(s)):
-            if s[i] in t:
-                if i != begin and used[s[i]] == aim[s[i]]:
-                    return 0xFFFF
-                else:
-                    used[s[i]] += 1
-            if self.findOver(used, aim):
-                return i
-        return 0xFFFF
-
-    def minWindow(self, s, t):
-        """
-        :type s: str
-        :type t: str
-        :rtype: str
-        """
-
-        if not self.exist(s, t):
+        while right < len(s):
+            counter_sub[s[right]] += 1
+            # if self.covered(counter_t, counter_sub):
+            while self.covered(counter_t, counter_sub):
+                # breakpoint()
+                if right - left + 1 < min_length:
+                    min_length = right - left + 1
+                    res = [left, right]
+                counter_sub[s[left]] -= 1
+                left += 1
+                
+            right += 1
+        # print(res)
+        res_str = s[res[0]: res[1]+1]
+        counter_sub = {char: res_str.count(char) for char in res_str}
+        # print(res_str)
+        # breakpoint()
+        if self.covered(counter_t, counter_sub):
+            return res_str
+        else:
             return ""
-        begin = 0
-        end = len(s) - 1
-        length = len(s) + 1
-        for i in range(0, len(s)):
-            if s[i] in t:
-                j = self.findEnd(s, t, i)
-                if j - i < length:
-                    length = j - i
-                    begin = i
-                    end = j
-        res = s[begin : end + 1]
-        return res
 
+
+    def covered(self, counter_t, counter_sub):
+        for char, times in counter_t.items():
+            if char not in counter_sub:
+                return False
+            if counter_sub[char] < times:
+                return False
+        return True
 
 
 if __name__ == '__main__':
     sol = Solution()
-    s = "aa"
-    t = "aa"
+    s = "a"
+    t = "b"
+    # s = ''.join(choice(string.ascii_letters) for _ in range(1000))
+    # t = ''.join(choice(string.ascii_letters) for _ in range(10))
+    # t = s[10:50]
+    # t = t[:5] + t[10:]
+    print(s)
+    print()
+    print(t)
+    print()
     print(sol.minWindow(s, t))
