@@ -6,7 +6,6 @@ class Solution:
         faster, slower = head, head
 
         while faster is not None:
-        
             if faster.next is None:
                 return -1
             faster = faster.next.next
