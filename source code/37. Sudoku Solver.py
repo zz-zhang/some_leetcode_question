@@ -1,5 +1,6 @@
 from pprint import pprint
 from typing import List
+from time import time
 
 class Solution:
     def solveSudoku(self, board: List[List[str]]) -> None:
@@ -19,28 +20,30 @@ class Solution:
                             for c in range(start_c, start_c + 3):
                                 self.avoid[(r, c)].add(board[i][j])
 
-        pprint(self.avoid)
-        self.dfs(board)
+        # pprint(self.avoid)
+        self.dfs(board, 0, 0)
         
-    def dfs(self, board):
-        for i in range(9):
-            for j in range(9):
-                if board[i][j] == '.':
-                    for num in '123456789':
-                        if num not in self.avoid[(i, j)] and self.is_valid(board, i, j, num):
-                            board[i][j] = num
-                            if self.dfs(board):
-                                return True
-                            board[i][j] = '.'
-                    return False
-        return True
+    def dfs(self, board, i, j):
+        while i < 9 and j < 9 and board[i][j] != '.':
+            j += 1
+            if j == 9:
+                i += 1
+                j = 0
+        if i == 9:
+            return True
+        for num in '123456789':
+            if num not in self.avoid[(i, j)] and self.is_valid(board, i, j, num):
+                board[i][j] = num
+                if self.dfs(board, i, j):
+                    return True
+                board[i][j] = '.'
+        return False
                         
 
     def is_valid(self, board, i, j, num):
         for k in range(9):
             if board[i][k] == num:
                 return False
-        for k in range(9):
             if board[k][j] == num:
                 return False
 
@@ -53,8 +56,10 @@ class Solution:
         return True
 
 if __name__ == '__main__':
+    start = time()
     sol = Solution()
     board = [["5","3",".",".","7",".",".",".","."],["6",".",".","1","9","5",".",".","."],[".","9","8",".",".",".",".","6","."],["8",".",".",".","6",".",".",".","3"],["4",".",".","8",".","3",".",".","1"],["7",".",".",".","2",".",".",".","6"],[".","6",".",".",".",".","2","8","."],[".",".",".","4","1","9",".",".","5"],[".",".",".",".","8",".",".","7","9"]]
     board = [[".",".",".",".",".",".",".",".","."],[".","9",".",".","1",".",".","3","."],[".",".","6",".","2",".","7",".","."],[".",".",".","3",".","4",".",".","."],["2","1",".",".",".",".",".","9","8"],[".",".",".",".",".",".",".",".","."],[".",".","2","5",".","6","4",".","."],[".","8",".",".",".",".",".","1","."],[".",".",".",".",".",".",".",".","."]]
     sol.solveSudoku(board)
     pprint(board)
+    print(time() - start)
